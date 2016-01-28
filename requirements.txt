@@ -1,1 +1,5 @@
 fuzzywuzzy
+pytest
+mock
+unittest2
+contextlib2

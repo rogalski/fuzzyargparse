@@ -1,9 +1,11 @@
 import io
+import sys
 import fuzzyargparse
 
 try:
     import unittest
-except ImportError:
+    unittest.TestCase.assertIn
+except AttributeError:
     import unittest2 as unittest
 
 try:
@@ -28,13 +30,13 @@ class FuzzyArgparseTests(unittest.TestCase):
         mock.patch.stopall()
 
     def test_basic(self):
-        stderr = io.StringIO()
+        stderr = self._get_fake_stream()
         with contextlib.redirect_stderr(stderr):
             namespace = self.parser.parse_args([])
         self.assertEqual(None, namespace.option)
 
     def test_with_misspelled_argument(self):
-        stderr = io.StringIO()
+        stderr = self._get_fake_stream()
         with contextlib.redirect_stderr(stderr), self.assertRaises(SystemExit) as ctx:
             self.parser.parse_args(["--optionz", "value"])
         self.assertEqual(2, ctx.exception.code)
@@ -43,12 +45,15 @@ class FuzzyArgparseTests(unittest.TestCase):
 
     def test_with_misspelled_arguments(self):
         self.parser.add_argument("-a", "--another")
-        stderr = io.StringIO()
+        stderr = self._get_fake_stream()
         with contextlib.redirect_stderr(stderr), self.assertRaises(SystemExit) as ctx:
             self.parser.parse_args(["--optionz", "value", "--nother", "123"])
         self.assertEqual(2, ctx.exception.code)
         expected = "error: unrecognized arguments: --optionz value --nother 123\ndid you mean: --option (was: --optionz)\ndid you mean: --another (was: --nother)"
         self.assertIn(expected, stderr.getvalue())
+
+    def _get_fake_stream(self):
+        return io.StringIO() if sys.version_info[0] >= 3 else io.BytesIO()
 
 
 if __name__ == "__main__":
