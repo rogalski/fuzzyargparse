@@ -7,11 +7,21 @@ Python argparse extension with hints on unknown arguments.
 [![Coverage Status](https://coveralls.io/repos/github/rogalski/fuzzyargparse/badge.svg?branch=master)](https://coveralls.io/github/rogalski/fuzzyargparse?branch=master)
 [![Code Climate](https://codeclimate.com/github/rogalski/fuzzyargparse/badges/gpa.svg)](https://codeclimate.com/github/rogalski/fuzzyargparse)
 
+## License
+[The MIT License](LICENSE).
+
+## Dependencies
+
+Fuzzyargparse uses:
+- [fuzzywuzzy](https://github.com/seatgeek/fuzzywuzzy) is used for fuzzy string matching
+- [python-Levenshtein](https://pypi.python.org/pypi/python-Levenshtein) should be installed for performance increase
+
 ## How to use:
 
     import fuzzyargparse
     parser = fuzzyargparse.FuzzyArgumentParser()
-    # FuzzyArgumentParser uses same API as argparse.ArgumentParser()
+    parser.add_argument("-o", "--option")
+    parser.add_argument("-a", "--another")
     parser.parse_args()
 
 ## Sample output:
