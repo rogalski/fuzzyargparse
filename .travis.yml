@@ -11,7 +11,6 @@ python:
   - "pyp3"
 install:
   - pip install -r requirements.txt
-  - pip install -r test-reqs.txt
   - pip install coveralls
 script: nosetests
 after_success: coveralls
