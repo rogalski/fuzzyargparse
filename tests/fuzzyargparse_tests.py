@@ -1,5 +1,4 @@
 import io
-import contextlib
 import fuzzyargparse
 
 try:
@@ -11,6 +10,12 @@ try:
     import unittest.mock as mock
 except ImportError:
     import mock
+
+try:
+    import contextlib
+    contextlib.redirect_stderr
+except AttributeError:
+    import contextlib2 as contextlib
 
 
 class FuzzyArgparseTests(unittest.TestCase):
