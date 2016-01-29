@@ -19,5 +19,5 @@ class FuzzyArgumentParser(argparse.ArgumentParser):
         choices = [o for action in self._get_optional_actions() for o in action.option_strings]
         for arg in argv:
             if arg.startswith(self.prefix_chars):
-                hint, _ = process.extractOne(arg, choices)
+                hint, dummy = process.extractOne(arg, choices)
                 yield msg % (hint, arg)
