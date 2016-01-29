@@ -12,5 +12,8 @@ python:
 install:
   - pip install -r requirements.txt
   - pip install coveralls
-script: nosetests --with-coverage --cover-package=fuzzyargparse
+  - if [[ $TRAVIS_PYTHON_VERSION == '2.7' || $TRAVIS_PYTHON_VERSION == '3.5' ]]; then pip install pep8 pylint; fi
+script:
+  - nosetests --with-coverage --cover-package=fuzzyargparse
+  - if [[ $TRAVIS_PYTHON_VERSION == '2.7' || $TRAVIS_PYTHON_VERSION == '3.5' ]]; then pep8 --max-line-length=120 fuzzyargparse && pylint -d C fuzzyargparse; fi
 after_success: coveralls
